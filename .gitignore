@@ -1,0 +1,22 @@
+## Ignore TFstate file
+*.tfstate
+*/*.tfstate
+*/**/*.pem
+
+## Ignore terraform.lock.hcl
+*.terraform.lock.hcl
+
+## Ignore PEM file
+*.pem
+*/*.pem
+*/**/*.pem
+
+## Ignore DS_Store
+.DS_Store
+*/*.pem
+*/**/.DS_Store
+
+## Ignore Terraform Plan output
+*.plan
+tfplan.out
+*.out
