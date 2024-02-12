@@ -15,7 +15,7 @@ Personal Boiler Plate for Public use, feel free to use them whenever convenient.
 ## How to Contribute:
 
 1. Raise/Open Issue
-2. Put detail on the Issue raise
+2. Put detail on the Issue raised
 3. Once Issue solved/accepted, it will be added to the Boiler Plate
 
 Feel free to have discussion, this will be our open-source stuff can be use by public
