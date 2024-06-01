@@ -1,0 +1,19 @@
+module "{{module_name}}" {
+    source      = "cloudposse/tfstate-backend/aws"
+    version     = "{{module_version}}"
+
+    name        = "{{s3_name}}"
+    stage       = "{{environment_name}}"
+    attributes  = ["state"]
+    
+    terraform_backend_config_file_path = "."
+    terraform_state_file               = "{{backend_name}}.tf"
+    
+    ## unless necessary, force_destroy should be false
+    force_destroy                      = false
+
+    tags        = {
+        ManageBy    = "Terraform"
+        Environment = "{{environment_name}}"
+    }
+}
