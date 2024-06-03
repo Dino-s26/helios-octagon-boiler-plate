@@ -1,10 +1,10 @@
 ## Ignore TFstate file
 *.tfstate
 */*.tfstate
-*/**/*.pem
 
 ## Ignore terraform.lock.hcl
 *.terraform.lock.hcl
+*.hcl
 
 ## Ignore PEM file
 *.pem
@@ -13,7 +13,6 @@
 
 ## Ignore DS_Store
 .DS_Store
-*/*.pem
 */**/.DS_Store
 
 ## Ignore Terraform Plan output
