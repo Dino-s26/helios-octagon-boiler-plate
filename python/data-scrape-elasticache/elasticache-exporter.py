@@ -11,6 +11,9 @@ from time import sleep
 from pathlib import Path
 from bs4 import BeautifulSoup
 from rich.console import Console
+from bs4 import BeautifulSoup
+from rich.console import Console
+
 
 
 ## Add console session
@@ -21,6 +24,7 @@ log_date = str(datetime.datetime.now().strftime("%d-%m-%y--%HH-%MM-%SS"))
 log_folder = Path("./log/").mkdir(parents=True, exist_ok=True)
 sleep(1)
 logging.basicConfig(filename="./log/trace-log-"+log_date+'.log', encoding='utf-8', level=logging.DEBUG)
+
 
 ## Check aws-vault credential
 def run_aws_vault():
@@ -140,8 +144,9 @@ def elasticache_func(profile, region):
     get_ecache_clusters = ecache.describe_cache_clusters()
 
     json_obj = json.dumps(get_ecache_clusters, indent=4, default=str)
+
     elasticache_path =  "./exported-elasticache/"
-    elasticache_folder = Path("./exported-elasticache/").mkdir(parents=True, exist_ok=True)
+    elasticache_folder = Path(elasticache_path).mkdir(parents=True, exist_ok=True)
 
     ecache_json_filename = elasticache_path+"elasticache-"+profile+"-"+region+".json"
 
