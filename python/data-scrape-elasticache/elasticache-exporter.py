@@ -21,7 +21,7 @@ console = Console()
 
 # Add logging
 log_date = str(datetime.datetime.now().strftime("%d-%m-%y--%HH-%MM-%SS"))
-log_folder = Path("./log/").mkdir(parents=True, exist_ok=True)
+Path("./log/").mkdir(parents=True, exist_ok=True)
 sleep(1)
 logging.basicConfig(filename="./log/trace-log-"+log_date+'.log', encoding='utf-8', level=logging.DEBUG)
 
@@ -146,7 +146,7 @@ def elasticache_func(profile, region):
     json_obj = json.dumps(get_ecache_clusters, indent=4, default=str)
 
     elasticache_path =  "./exported-elasticache/"
-    elasticache_folder = Path(elasticache_path).mkdir(parents=True, exist_ok=True)
+    Path("./exported-elasticache/").mkdir(parents=True, exist_ok=True)
 
     ecache_json_filename = elasticache_path+"elasticache-"+profile+"-"+region+".json"
 
