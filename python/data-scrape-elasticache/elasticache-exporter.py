@@ -2,14 +2,18 @@ import sys
 import json
 import boto3
 import logging
+import datetime
 import requests
 import subprocess
 import pandas as pd
 from pick import pick
 from time import sleep
+from pathlib import Path
 from bs4 import BeautifulSoup
 from rich.console import Console
-import datetime
+from bs4 import BeautifulSoup
+from rich.console import Console
+
 
 
 ## Add console session
@@ -17,7 +21,10 @@ console = Console()
 
 # Add logging
 log_date = str(datetime.datetime.now().strftime("%d-%m-%y--%HH-%MM-%SS"))
-logging.basicConfig(filename="trace-log-"+log_date+'.log', encoding='utf-8', level=logging.DEBUG)
+Path("./log/").mkdir(parents=True, exist_ok=True)
+sleep(1)
+logging.basicConfig(filename="./log/trace-log-"+log_date+'.log', encoding='utf-8', level=logging.DEBUG)
+
 
 ## Check aws-vault credential
 def run_aws_vault():
@@ -138,7 +145,10 @@ def elasticache_func(profile, region):
 
     json_obj = json.dumps(get_ecache_clusters, indent=4, default=str)
 
-    ecache_json_filename = "elasticache-"+profile+"-"+region+".json"
+    elasticache_path =  "./exported-elasticache/"
+    Path("./exported-elasticache/").mkdir(parents=True, exist_ok=True)
+
+    ecache_json_filename = elasticache_path+"elasticache-"+profile+"-"+region+".json"
 
     try:
         with open(ecache_json_filename, "w") as json_output_file:
