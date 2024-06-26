@@ -92,7 +92,7 @@ def select_aws_region():
     options = df_region_data
     title = f"[AWS] Select AWS Region: "
     option, index = pick(options, title, indicator="\b>>", default_index=1)
-    console.log(f"[bold dodger_blue2]AWS Profile used:[/bold dodger_blue2]",option)
+    console.log(f"[bold dodger_blue2]AWS Region used:[/bold dodger_blue2]",option)
 
     selected_region = option
 
