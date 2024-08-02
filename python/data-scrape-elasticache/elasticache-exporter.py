@@ -11,8 +11,6 @@ from time import sleep
 from pathlib import Path
 from bs4 import BeautifulSoup
 from rich.console import Console
-from bs4 import BeautifulSoup
-from rich.console import Console
 
 
 
