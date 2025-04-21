@@ -1,7 +1,7 @@
 ## Intro
 
 Please list all the updates or items added to the `main` branch
-from this `new-stuff-to-add` branch this will be act as updates note
+from this `new-stuff-to-add-xxx` branch this will be act as updates note
 for others to expect what is added to the `main` branch
 
 ```
@@ -27,7 +27,6 @@ Summaries what is added to the `main` branch :
 Summaries what is added to the `main` branch :
 
 - `<Add your updates or items beginning here>`
-
 
 ## To Merge
 
