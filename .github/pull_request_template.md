@@ -1,8 +1,8 @@
 ## Intro
 
 Please list all the updates or items added to the `main` branch
-from this `new-stuff-to-add-xxx` branch this will be act as updates note
 for others to expect what is added to the `main` branch
+for branch name kindly use format as follows `<year>-<month>-<date>--<what you add>`
 
 ```
 ## Format to follow for future reference
@@ -31,4 +31,6 @@ Summaries what is added to the `main` branch :
 ## To Merge
 
 To do Merge, please do `squash merge` or `rebase merge`,
-this will ensure all the update is preserved.
+this will ensure all the commit update is preserved.
+
+Note: Ask for approval before Merge the PR

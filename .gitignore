@@ -19,3 +19,9 @@
 *.plan
 tfplan.out
 *.out
+
+# Ignore .bak files
+*.bak
+
+# Ignore .ansible folders
+.ansible
