@@ -16,3 +16,6 @@
       state: present
       classic: true
       channel: '{{ microk8s_version }}'
+  
+  - name: Restart each VM
+    ansible.builtin.reboot:
