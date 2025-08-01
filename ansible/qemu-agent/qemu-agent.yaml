@@ -1,0 +1,22 @@
+---
+- name: Install qemu-agent to home-lab server
+  hosts: '{{ host_target }}'
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: Ping all hosts
+    ansible.builtin.ping:
+
+  - name: Install qemu-agent
+    ansible.builtin.apt:
+      name: qemu-guest-agent
+      state: present
+      update-cache: false
+  
+  - name: Enable qemu-agent service
+    ansible.builtin.systemd_service:
+      name: qemu-guest-agent
+      state: started
+      enabled: true 
+      daemon_reload: true
