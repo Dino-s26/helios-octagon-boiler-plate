@@ -4,7 +4,7 @@
   gather_facts: false
   vars:
     csr_path: "<example.tld>_csr.pem"
-    private_key_path: "<example.tld>__key.pem"
+    private_key_path: "<example.tld>_key.pem"
     common_name: "*.<example.tld>_"
   tasks:
     - name: Create directory
