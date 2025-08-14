@@ -1,0 +1,34 @@
+---
+- name: Generate CSR
+  hosts: localhost
+  gather_facts: false
+  vars:
+    csr_path: "<example.tld>_csr.pem"
+    private_key_path: "<example.tld>__key.pem"
+    common_name: "*.<example.tld>_"
+  tasks:
+    - name: Create directory
+      file:
+        path: "certificate/"
+        state: directory
+        mode: '0755'
+
+    - name: Generate private key
+      openssl_privatekey:
+        path: "./certificate/{{ private_key_path }}"
+        size: 2048
+      register: private_key
+
+    - name: Generate CSR
+      openssl_csr:
+        path: "./certificate/{{ csr_path }}"
+        privatekey_path: "./certificate/{{ private_key_path }}"
+        common_name: "{{ common_name }}"
+        organization_name: "<org name>"
+        organizational_unit_name: "<org ou>"
+        country_name: "<country code>"
+        locality_name: "<local area>"
+        state_or_province_name: "<state>"
+        email_address: "<mail@example.tld"
+        backup: yes
+      register: csr
