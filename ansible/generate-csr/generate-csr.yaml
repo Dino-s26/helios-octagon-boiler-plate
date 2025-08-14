@@ -3,9 +3,9 @@
   hosts: localhost
   gather_facts: false
   vars:
-    csr_path: "<example.tld>_csr.pem"
-    private_key_path: "<example.tld>_key.pem"
-    common_name: "*.<example.tld>_"
+    csr_path: "<example.tld>_csr.pem" # Change to domain you will have to create CSR for
+    private_key_path: "<example.tld>_key.pem" # Change to domain you will have to create CSR for
+    common_name: "*.<example.tld>" # Change to domain you will have to create CSR for
   tasks:
     - name: Create directory
       file:
