@@ -1,0 +1,34 @@
+---
+- name: Generate CSR
+  hosts: localhost
+  gather_facts: false
+  vars:
+    csr_path: "<example.tld>_csr.pem" # Change to domain you will have to create CSR for
+    private_key_path: "<example.tld>_key.pem" # Change to domain you will have to create CSR for
+    common_name: "*.<example.tld>" # Change to domain you will have to create CSR for
+  tasks:
+    - name: Create directory
+      file:
+        path: "certificate/"
+        state: directory
+        mode: '0755'
+
+    - name: Generate private key
+      openssl_privatekey:
+        path: "./certificate/{{ private_key_path }}"
+        size: 2048
+      register: private_key
+
+    - name: Generate CSR
+      openssl_csr:
+        path: "./certificate/{{ csr_path }}"
+        privatekey_path: "./certificate/{{ private_key_path }}"
+        common_name: "{{ common_name }}"
+        organization_name: "<org name>"
+        organizational_unit_name: "<org ou>"
+        country_name: "<country code>"
+        locality_name: "<local area>"
+        state_or_province_name: "<state>"
+        email_address: "<mail@example.tld"
+        backup: yes
+      register: csr
