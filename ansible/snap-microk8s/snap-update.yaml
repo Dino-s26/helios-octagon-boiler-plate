@@ -16,6 +16,23 @@
       state: present
       classic: true
       channel: '{{ microk8s_version }}'
+    register: snap_update_result
   
   - name: Restart each VM
     ansible.builtin.reboot:
+    when: snap_update_result.changed
+
+  - name: Ping all hosts after reboot
+    ansible.builtin.ping:
+    register: ping_after_reboot
+    when: snap_update_result.changed
+
+  - name: Check the k8s version
+    ansible.builtin.command: microk8s kubectl version
+    register: k8s_version
+    when: snap_update_result
+
+  - name: Print the k8s version
+    ansible.builtin.debug:
+      var: k8s_version.stdout_lines
+    when: k8s_version
