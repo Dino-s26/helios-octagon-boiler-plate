@@ -1,0 +1,32 @@
+---
+- name: Prepare Microk8s Join Token
+  hosts: 'mk8s-control-plane'
+  gather_facts: false
+  become: true
+  collections:
+  - community.general
+
+  tasks:
+  - name: Ping mk8s-control-plane
+    ansible.builtin.ping:
+
+  - name: Get Token from Control Plane
+    ansible.builtin.include_tasks: tasks/get-microk8s-token.yaml
+
+  - name: Share Join Token to mk8s-nodes
+    ansible.builtin.include_tasks: tasks/share-microk8s-token.yaml
+
+- name: Prepare Microk8s Node Join 
+  hosts: 'mk8s-nodes'
+  gather_facts: false
+  become: true
+  collections:
+  - community.general
+
+  tasks:
+  - name: Ping mk8s-nodes
+    ansible.builtin.ping:
+
+  - name: Run microk8s join
+    ansible.builtin.command: >
+      microk8s join {{ control_plane_ip }}/{{ microk8s_token }}
