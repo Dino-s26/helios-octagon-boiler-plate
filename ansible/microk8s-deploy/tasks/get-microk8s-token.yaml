@@ -1,0 +1,20 @@
+- name: Generate Microk8s Token for 1 hours
+  ansible.builtin.command: microk8s add-node --token-ttl 3600
+  register: microk8s_join_token
+
+- name: Extract control plane IP and token
+  set_fact:
+    control_plane_ip: >-
+      {{ microk8s_join_token.stdout_lines
+         | select('search', '^microk8s join')
+         | list | first
+         | regex_search('microk8s join ([^/]+)', '\1') | first }}
+    microk8s_token: >-
+      {{ microk8s_join_token.stdout_lines
+         | select('search', '^microk8s join')
+         | list | first
+         | regex_search('/([0-9a-f]+/[0-9a-f]+)', '\1') | first }}
+
+- name: Debug extracted values
+  ansible.builtin.debug:
+    msg: "control_plane_ip={{ control_plane_ip }}, token={{ microk8s_token }}"
