@@ -1,0 +1,13 @@
+- name: Share control plane IP with worker nodes
+  ansible.builtin.set_fact:
+    control_plane_ip: "{{ control_plane_ip }}"
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items: "{{ groups['mk8s-nodes'] }}"
+
+- name: Share microk8s token with worker nodes
+  ansible.builtin.set_fact:
+    microk8s_token: "{{ microk8s_token }}"
+  delegate_to: "{{ item }}"
+  delegate_facts: true
+  with_items: "{{ groups['mk8s-nodes'] }}"
