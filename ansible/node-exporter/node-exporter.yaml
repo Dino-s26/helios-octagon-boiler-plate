@@ -1,0 +1,110 @@
+---
+- name: node-exporter playbook
+  hosts: '{{host_target}}'
+  gather_facts: false
+  become: true
+
+  tasks:
+  - name: Check Connectivity to Servers / Endpoints
+    ansible.builtin.ping:
+
+
+  - name: Update OS Dependencies
+    ansible.builtin.apt:
+      update_cache: true
+      upgrade: yes
+      cache_valid_time: 3600
+      autoclean: true
+      autoremove: true
+
+  - name: Create node_exporter group
+    ansible.builtin.group:
+      name: node_exporter
+      system: true
+      state: present
+ 
+  - name: Create node_exporter user
+    ansible.builtin.user:
+      name: node_exporter
+      group: node_exporter
+      system: true
+      shell: /usr/sbin/nologin
+      create_home: false
+      state: present
+
+
+  - name: Download node-exporter
+    ansible.builtin.get_url:
+      url: https://github.com/prometheus/node_exporter/releases/download/v{{node_exporter_version}}/node_exporter-{{node_exporter_version}}.linux-amd64.tar.gz
+      dest: /tmp/node-exporter.tar.gz
+      mode: '0644'
+
+  - name: Extract node-exporter binary
+    ansible.builtin.unarchive:
+      src: /tmp/node-exporter.tar.gz
+      dest: /usr/local/bin/
+      remote_src: true
+      extra_opts:
+        - --strip-components=1
+        - --wildcards
+        - "*/node_exporter"
+      owner: root
+      group: root
+      mode: '755'
+      creates: /usr/local/bin/node_exporter
+  
+  - name: Verify node-exporter binary installed
+    ansible.builtin.stat:
+      path: /usr/local/bin/node_exporter
+    register: check_file
+ 
+  - name: Output node-exporter checking result
+    ansible.builtin.debug:
+      msg: "node-exporter exists: {{ check_file.stat.exists }}, size: {{ check_file.stat.size | default('n/a') }} bytes"
+  
+  - name: Create node_exporter.service
+    ansible.builtin.copy:
+      dest: /etc/systemd/system/node_exporter.service
+      content: |
+        [Unit]
+        Description=Node Exporter
+        After=network-online.target
+
+        [Service]
+        User=node_exporter
+        Group=node_exporter
+        Type=simple
+        ExecStart=/usr/local/bin/node_exporter \
+        --web.listen-address=:9100
+        Restart=on-failure
+        RestartSec=5s
+        LimitNOFILE=65536
+        NoNewPrivileges=true
+        ProtectSystem=strict
+        ProtectHome=true
+        PrivateTmp=true
+
+        [Install]
+        WantedBy=multi-user.target
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: Enable and Start node_exporter.service
+    ansible.builtin.systemd_service:
+      name: node_exporter
+      enabled: true
+      state: started
+      daemon_reload: true
+    register: node_exporter_status
+
+  - name: Check node_exporter.service Status
+    ansible.builtin.debug:
+      msg: "node_exporter.service ActiveState: {{ node_exporter_status.status.ActiveState }}"
+
+  handlers:
+    - name: Restart node_exporter
+      ansible.builtin.systemd_service:
+        name: node_exporter
+        state: restarted
+        daemon_reload: true
