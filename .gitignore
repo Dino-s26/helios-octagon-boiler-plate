@@ -22,6 +22,18 @@ tfplan.out
 
 # Ignore .bak files
 *.bak
+*-bak.yaml
+*.bak.yaml
 
 # Ignore .ansible folders
 .ansible
+
+## Ignore Folder to be excluded
+ansible/**/stale/*
+ansible/**/inventories/aws/*
+ansible/**/reports/emudhra/*
+
+## Ignore Claude files
+ansible/*/CLAUDE.md
+ansible/*/PROGRESS_CHECKPOINT.md
+ansible/*/CHECKPOINT.md
